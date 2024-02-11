@@ -7,7 +7,7 @@ namespace Thedustin\PhpTxtar;
 class Archive implements \Stringable
 {
     private const MARKER_START = '-- ';
-    private const MARKER_END = " --";
+    private const MARKER_END = " --\n";
 
     private string $comment;
     /** @var File[] */
@@ -65,7 +65,7 @@ class Archive implements \Stringable
     {
         $str = self::fixNewLine($this->comment);
         foreach ($this->files as $file) {
-            $str .= self::MARKER_START . $file->name . self::MARKER_END . "\n";
+            $str .= self::MARKER_START . $file->name . self::MARKER_END;
             $str .= self::fixNewLine($file->data);
         }
 
@@ -129,14 +129,14 @@ class Archive implements \Stringable
 
     private static function parseMarker(string $line): ?string
     {
-        if (\strlen($line) < (\strlen(self::MARKER_START) + \strlen(self::MARKER_END . "\n"))
+        if (\strlen($line) < (\strlen(self::MARKER_START) + \strlen(self::MARKER_END))
             || !str_starts_with($line, self::MARKER_START)
-            || !str_ends_with($line, self::MARKER_END . "\n")
+            || !str_ends_with($line, self::MARKER_END)
         ) {
             return null;
         }
 
-        $marker = substr($line, \strlen(self::MARKER_START), -\strlen(self::MARKER_END . "\n"));
+        $marker = substr($line, \strlen(self::MARKER_START), -\strlen(self::MARKER_END));
 
         return trim($marker);
     }
