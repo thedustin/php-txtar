@@ -1,0 +1,17 @@
+<?php
+
+declare(strict_types=1);
+
+$finder = (new PhpCsFixer\Finder())
+    ->in(__DIR__);
+
+return (new PhpCsFixer\Config())
+    ->setRules([
+        '@Symfony:risky' => true,
+        'concat_space' => ['spacing' => 'one'],
+        'explicit_indirect_variable' => true,
+        'trailing_comma_in_multiline' => ['elements' => ['arguments', 'arrays', 'match', 'parameters']],
+        'yoda_style' => false,
+    ])
+    ->setFinder($finder)
+    ->setUsingCache(true);
